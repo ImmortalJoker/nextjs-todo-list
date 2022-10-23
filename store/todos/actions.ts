@@ -1,3 +1,5 @@
+import { AnyAction } from "@reduxjs/toolkit";
+import { Dispatch } from "react";
 import { TTaskList } from "../../types/types";
 import { ThunkResult } from "../store";
 
@@ -20,8 +22,9 @@ export type TodoListActions =
   | { type: todoActionTypes.DELETE, id: number }
   | { type: todoActionTypes.COMPLETE, id: number };
 
-export const loadTodoList = (): ThunkResult<void> =>
-  async (dispatch) => { 
+export const loadTodoList = (): AnyAction =>
+  //@ts-ignore
+  async (dispatch: Dispatch<TodoListActions>) => { 
   try {
     dispatch({ type: todoActionTypes.LOAD });
     const response = await fetch(TODOS_URL).then(res => res.json());
