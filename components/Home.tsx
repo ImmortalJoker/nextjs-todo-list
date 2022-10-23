@@ -8,22 +8,27 @@ import Header from './Header';
 import TaskList from './TaskList';
 import { loadTodoList } from '../store/todos/actions';
 import useTodosSelector from '../store/todos/selector';
+import { fetchTodos } from '../store-rtk/store';
+import { useAppDispatch } from '../hooks/useDispatch';
 
 const Home: NextPage = () => {
   const [present] = useIonToast();
   const dispatch = useDispatch();
+  const AppDispatch = useAppDispatch();
   const { tasks, isLoading, isError } = useTodosSelector();
 
   const doRefresh = (event: CustomEvent<RefresherEventDetail>) => {
-    dispatch(loadTodoList())
+    // dispatch(loadTodoList())
+    AppDispatch(fetchTodos())
       .finally(() => {
         event.detail.complete();
       });
   };
 
   useEffect(() => {
-    dispatch(loadTodoList());
-  }, [dispatch])
+    // dispatch(loadTodoList());
+    AppDispatch(fetchTodos());
+  }, [AppDispatch])
 
   if (isError) {
     present({

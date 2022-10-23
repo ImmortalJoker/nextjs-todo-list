@@ -5,9 +5,12 @@ import { IonButton, IonIcon, IonInput, IonItem, IonLabel, useIonToast } from "@i
 import { arrowForwardOutline } from 'ionicons/icons';
 
 import { addTask } from "../store/todos/actions";
+import { useAppDispatch } from "../hooks/useDispatch";
+import { add } from "../store-rtk/store";
 
 const AddTask: FC<{}> = () => {
   const dispatch = useDispatch();
+  const AppDispatch = useAppDispatch();
   const [present] = useIonToast();
   const inputRef = useRef<HTMLIonInputElement>(null);
   const [value, setValue] = useState<string>('');
@@ -19,7 +22,8 @@ const AddTask: FC<{}> = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(addTask(value));
+    // dispatch(addTask(value));
+    AppDispatch(add(value));
 
     setValue('');
 
