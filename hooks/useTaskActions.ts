@@ -1,14 +1,18 @@
 import { useIonToast } from '@ionic/react';
 import { useDispatch } from 'react-redux';
+import { complete, deletE } from '../store-rtk/store';
 
 import { completeTask, deleteTask } from "../store/todos/actions";
+import { useAppDispatch } from './useDispatch';
 
 const useTaskActions = () => {
   const dispatch = useDispatch();
+  const AppDispatch = useAppDispatch();
   const [present] = useIonToast();
 
   const finishTask = (id: number) => () => { 
-    dispatch(completeTask(id));
+    // dispatch(completeTask(id));
+    AppDispatch(complete(id));
 
     present({
       color: 'primary',
@@ -19,7 +23,8 @@ const useTaskActions = () => {
   };
 
   const removeTask = (id: number) => () => { 
-    dispatch(deleteTask(id));
+    // dispatch(deleteTask(id));
+    AppDispatch(deletE(id));
 
     present({
       color: 'primary',

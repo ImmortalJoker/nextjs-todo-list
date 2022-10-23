@@ -18,7 +18,8 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/typography.css';
 
 import '../styles/globals.css';
-import { wrapper } from '../store/store'
+// import { wrapper } from '../store/store'
+import { wrapper } from '../store-rtk/store'
 
 setupIonicReact({});
 
