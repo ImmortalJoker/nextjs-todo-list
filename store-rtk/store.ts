@@ -1,10 +1,11 @@
-import { createSlice, configureStore, Store, ThunkAction, Action, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, configureStore, Store, ThunkAction, Action, createAsyncThunk, PayloadAction, createAction } from '@reduxjs/toolkit'
 import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 
 import { TTaskList } from '../types/types';
 
 const TODOS_URL = 'https://jsonplaceholder.typicode.com/todos';
 
+const hydrateAction = createAction<any>(HYDRATE);
 interface TodoState {
   tasks: TTaskList;
   isLoading: boolean;
@@ -65,12 +66,12 @@ const todoSlice = createSlice({
         state.isLoading = false;
         state.isError = action.error.message;
        })
-      .addCase(HYDRATE, (state, action) => {
+      .addCase(hydrateAction, (state, action) => {
         console.log('HYDRATE', state, action.payload);
         
         return {
           ...state,
-          ...action.payload.subject,
+          ...action.payload,
         };
       })
 });
@@ -84,9 +85,9 @@ const makeStore = () => configureStore({
   devTools: true
 });
 
-export type AppDispatch = ReturnType<AppStore['dispatch']>;
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];
+export type RootState = AppStore['getState'];
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
 
 export const wrapper = createWrapper<AppStore>(makeStore);
